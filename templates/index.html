@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+
+<h2 class="mb-4">People List</h2>
+
+<ul class="list-group mb-4">
+  {% for person in people %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span>
+        <strong>{{ person.name }}</strong> — {{ person.age }} yrs — {{ person.job }}
+      </span>
+      <div>
+        <a href="{{ url_for('details', pid=person.pid) }}" class="btn btn-sm btn-info me-2">Details</a>
+        <button class="btn btn-sm btn-danger" onclick="deletePerson({{ person.pid }})">Delete</button>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+
+<h3 class="mb-3">Add New Person</h3>
+<form action="{{ url_for('index') }}" method="POST" class="row g-3">
+  <div class="col-md-4">
+    <input type="text" name="name" class="form-control" placeholder="Name" required>
+  </div>
+  <div class="col-md-2">
+    <input type="text" name="age" class="form-control" placeholder="Age" required>
+  </div>
+  <div class="col-md-4">
+    <input type="text" name="job" class="form-control" placeholder="Job" required>
+  </div>
+  <div class="col-md-2">
+    <input type="submit" value="Create" class="btn btn-success w-100">
+  </div>
+</form>
+
+<script>
+function deletePerson(pid){
+    fetch('/delete/' + pid, {
+        method: 'DELETE'
+    }).then(response => {
+        if(response.ok) {
+            window.location.reload();
+        } else {
+            console.error('Failed to delete item with pid: ', pid)
+        }
+    }).catch(error => {
+        console.error('Error during fetching pid:', error);
+    });
+}
+</script>
+
+{% endblock %}

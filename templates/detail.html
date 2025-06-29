@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Person Details{% endblock %}
+
+{% block content %}
+
+<div class="card">
+  <div class="card-header">
+    <h4>Person #{{ person.pid }}</h4>
+  </div>
+  <div class="card-body">
+    <p><strong>Name:</strong> {{ person.name }}</p>
+    <p><strong>Age:</strong> {{ person.age }}</p>
+    <p><strong>Job:</strong> {{ person.job }}</p>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Back</a>
+  </div>
+</div>
+
+{% endblock %}
